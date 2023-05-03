@@ -1,0 +1,22 @@
+This code is for controlling a RGB LED using pulse width modulation (PWM) to create color-changing effects. 
+The LED cycles through different colors in a loop, with each color transition lasting for a set period of time. 
+The PWM duty cycles for the red, green, and blue LEDs are adjusted using timer interrupts.
+
+The code uses the MSP430 microcontroller, with pins P6.0, P6.1, and P6.2 connected to the red, green, and blue LEDs, respectively. 
+The PWM period is set to 1000 cycles.
+
+The LED transitions through three different states:
+
+RG: Decreases the duty cycle for the red LED from 100% to 0%, and increases the duty cycle for the green LED from 0% to 50%, 
+before transitioning to the next state when the red LED duty cycle reaches 0%.
+
+GB: Decreases the duty cycle for the green LED from 50% to 0%, and increases the duty cycle for the blue LED from 0% to 50%, 
+before transitioning to the next state when the green LED duty cycle reaches 0%.
+
+BR: Decreases the duty cycle for the blue LED from 50% to 0%, and increases the duty cycle for the red LED from 0% to 50%, 
+before transitioning back to the RED_TO_GREEN state when the blue LED duty cycle reaches 0%.
+
+In addition to controlling the LED, the code also sets up timer interrupts to adjust the period of the timer that controls the LED PWM. 
+The interrupt function adjusts the timer compare value (TB1CCR0) by adding 20 to it, which gradually increases the period of the timer. This helps to prevent the timer from overflowing and causing the LED to stop working.
+
+Finally, the code enables interrupts and enters low-power mode (LPM0) to reduce power consumption.
