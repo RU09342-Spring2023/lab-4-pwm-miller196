@@ -15,8 +15,8 @@ void main()
 {
     WDTCTL = WDTPW | WDTHOLD;   // Stop watchdog timer
 
-    LEDSetup();     // Initialize LED pins
-    TimerSetup();   // Initialize timer
+    LEDSetup();     
+    TimerSetup();   
 
     PM5CTL0 &= ~LOCKLPM5;       // Unlock LPM5
 
@@ -26,14 +26,13 @@ void main()
 
 
 void LEDSetup(){
-    P6DIR |= BIT0 | BIT1 | BIT2; // Set P6.0-6.2 as output for RGB LED
+    P6DIR |= BIT0 | BIT1 | BIT2; 
 
-    P6OUT &= ~(BIT0 | BIT1 | BIT2); // Initialize pins to power-off state
+    P6OUT &= ~(BIT0 | BIT1 | BIT2); 
 
-    P6SEL0 |= BIT0 | BIT1 | BIT2; // Select PWM for P6.0-6.2
-    P6SEL1 &= ~(BIT0 | BIT1 | BIT2);    //Clearing bits
-
-    P6IE |= BIT0 | BIT1 | BIT2;  // Enable P6.0-6.2 interrupts
+    P6SEL0 |= BIT0 | BIT1 | BIT2; 
+    P6SEL1 &= ~(BIT0 | BIT1 | BIT2);    
+    P6IE |= BIT0 | BIT1 | BIT2;  
 }
 
 
@@ -41,18 +40,18 @@ void TimerSetup(){
     TB3CCR0 = PERIOD - 1;          // Set PWM period
     TB3CTL = TBSSEL__SMCLK | MC__UP | TBCLR; // Configure timer: SMCLK, up mode, clear TBR
 
-    TB3CCTL1 = OUTMOD_7;           // (RED) Set output mode for CCR1-reset/set
-    TB3CCTL2 = OUTMOD_7;           // (GREEN) Set output mode for CCR2-reset/set
-    TB3CCTL3 = OUTMOD_7;           // (BLUE) Set output mode for CCR3-reset/set
+    TB3CCTL1 = OUTMOD_7;           // RED
+    TB3CCTL2 = OUTMOD_7;           // GREEN 
+    TB3CCTL3 = OUTMOD_7;           // BLUE
 
-    TB3CCR1 = PERIOD - 1;          // Set initial duty cycle for RGB LED
+    TB3CCR1 = PERIOD - 1;         
    
-    TB3CCR2 = 0;    // Green LED off
-    TB3CCR3 = 0;    // Blue LED off
+    TB3CCR2 = 0;   
+    TB3CCR3 = 0;    
 
-    TB1CCTL0 |= CCIE;              // Enable TB1 CCR0 overflow interrupt
-    TB1CCR0 = 1;                   // Set initial period for TB1
-    TB1CTL = TBSSEL_1 | MC_2 | ID_3 | TBCLR | TBIE; // Configure timer: ACLK, continuous mode, divider /8, clear TBR, enable interrupt
+    TB1CCTL0 |= CCIE;              
+    TB1CCR0 = 1;                  
+    TB1CTL = TBSSEL_1 | MC_2 | ID_3 | TBCLR | TBIE; 
 }
 
 
