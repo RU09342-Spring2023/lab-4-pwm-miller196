@@ -1,0 +1,27 @@
+The microcontroller controls a servo motor using pulse width modulation (PWM) technique. 
+It also utilizes interrupts to handle button inputs for controlling the servo motor.
+
+The pinSetup() function configures the MSP430 pins for the servo motor. 
+The servo motor is connected to pin P6.0, which is set as an output in the function. 
+It also enables the peripheral function for the pin.
+
+The ButtonSetup() function configures two buttons, one connected to pin P2.3 and the other connected to pin P4.1. 
+Both buttons are set as inputs with pull-up resistors. 
+Interrupts are enabled for both buttons, which trigger when the button is pressed or released.
+
+The TimerB3Setup() function configures Timer B3 for generating the PWM signal for the servo motor. 
+The timer is set to use the SMCLK clock source and to count up to its maximum value. 
+The timer is also set to clear when it overflows and to trigger an interrupt on overflow. 
+CCR0 is set to 20000, which corresponds to a frequency of 50 Hz. 
+CCR1 is initially set to 1500, which corresponds to a duty cycle of 1.5 ms.
+
+The Port_2() and Port_4() functions are interrupt service routines (ISRs) for the buttons connected to pins P2.3 and P4.1, respectively. 
+When the button is pressed, the ISR adjusts the duty cycle of the PWM signal to move the servo motor either left or right. 
+The duty cycle is adjusted by adding or subtracting 100 from the current value of CCR1, which corresponds to a change of approximately 5%.
+
+The Timer3_B1_ISR() function is an ISR for Timer B3. It is triggered on overflow and sets the output pin P6.0 to low to end the PWM cycle.
+
+In summary, this code configures the MSP430 pins for controlling a servo motor, sets up a PWM signal using Timer B3, 
+and uses interrupts to handle button inputs for controlling the servo motor. 
+When a button is pressed, the duty cycle of the PWM signal is adjusted to move the servo motor either left or right. 
+The PWM signal is generated at a frequency of 50 Hz and a duty cycle between 1 and 2 ms, which is the typical range for servo motors.
