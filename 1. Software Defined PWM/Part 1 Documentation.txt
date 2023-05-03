@@ -1,0 +1,22 @@
+This code is written for MSP430 microcontroller using Code Composer Studio (CCS) IDE. 
+It initializes the on-board LEDs and buttons, and sets up a timer to control the LEDs' 
+on and off timing using pulse-width modulation (PWM) signals.
+
+The LEDSetup() function sets the P1.0 and P6.6 pins as outputs and clears their output latches.
+
+The ButtonSetup() function sets the P2.3 and P4.1 pins as inputs and enables their pull-up resistors. 
+It also sets their interrupt edges and enables their interrupts.
+
+The TimerB0Setup() function configures Timer B0 to use SMCLK as the clock source, 
+sets the timer mode to up mode, clears the timer register, enables its interrupt, 
+and sets the output modes of the CCR0, CCR1, and CCR2 registers to toggle/set/reset respectively. 
+It also sets the initial values of CCR0, CCR1, and CCR2 registers.
+
+The Port_2() and Port_4() interrupt service routines are triggered by button presses on P2.3 and P4.1 respectively.
+ They check the current values of CCR1 and CCR2, and increment them by 100 if they are less than 1000.
+
+The Timer0_B1_ISR() interrupt service routine is triggered by Timer B0 interrupts. 
+It checks the interrupt flag register of Timer B0 and toggles the state of P1.0 and P6.6 LEDs by setting or clearing 
+them based on the output modes set in the TimerB0Setup() function.
+
+Overall, this code implements a simple LED control system using PWM and button inputs.
